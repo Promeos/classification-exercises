@@ -33,12 +33,16 @@ def prep_titanic(df):
     # Drop missing values in the embarked column.
     # This removes missing values in embark_town as well.
     df.dropna(how='any', subset=['embarked'], inplace=True)
+    df.age.fillna(df.age.median(), inplace=True)
     
     # Throw the deck overboard because there are too many missing values.
-    df.drop(columns='deck', inplace=True)
+    df.drop(columns=['deck', 'pclass', 'embarked', 'passenger_id'], inplace=True)
+    
     
     # Create dummy variables for our targets. 0 0 represents 'embarked_c'
-    encoded_embarked = pd.get_dummies(df.embarked, prefix='embarked', drop_first=True)
+    encoded_embarked = pd.get_dummies(df.embark_town,
+                                      prefix='embark',
+                                      drop_first=True)
     
     # Scale numerical columns using MinMaxScalar()
     scaler = MinMaxScaler()
