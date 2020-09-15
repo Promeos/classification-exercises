@@ -8,18 +8,18 @@ def evaluation_metrics(matrix):
     Accuracy, Misclassification Rate, Recall, Specificity
     '''
      # unravels matrix column wise
-    tp, fn, fp, tn = matrix.values.ravel()
+    true_positives, false_negatives, false_positives, true_negatives = matrix.values.ravel()
     
     print("Model Evaluation\n" + ("-" * 16))
     # Use the accuracy formula to above to calculate model accuracy
-    accuracy = (tp + tn )/sum([tp, tn, fp, fn])
+    accuracy = (true_positives + true_negatives)/sum([true_positives, false_positives, false_negatives, true_negatives])
     print(f"Accuracy {accuracy:20.2%}")
     
-    error = (fn + fp)/sum([tp,fp,tn,fn])
-    print(f"Misclassification Rate {error:3.2%}")
-    
-    recall = tp / (tp + tn)
+    recall = true_positives / (true_positives + false_positives)
     print(f"Recall {recall:22.2%}")
     
-    specificity = tn / (tn + fn)
+    precision = (true_positives)/sum([true_positives, false_positives])
+    print(f"Precision {precision:19.2%}")
+    
+    specificity = true_negatives / (true_negatives + false_positives)
     print(f"Specificity {specificity:17.2%}")
