@@ -15,7 +15,7 @@ def evaluation_metrics(matrix):
     accuracy = (true_positives + true_negatives)/sum([true_positives, false_positives, false_negatives, true_negatives])
     print(f"Accuracy {accuracy:20.2%}")
     
-    recall = true_positives / (true_positives + false_positives)
+    recall = true_positives / (true_positives + false_negatives)
     print(f"Recall {recall:22.2%}")
     
     precision = true_positives / (true_positives + false_positives)
