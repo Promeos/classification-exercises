@@ -18,7 +18,7 @@ def evaluation_metrics(matrix):
     recall = true_positives / (true_positives + false_positives)
     print(f"Recall {recall:22.2%}")
     
-    precision = (true_positives)/sum([true_positives, false_positives])
+    precision = true_positives / (true_positives + false_positives)
     print(f"Precision {precision:19.2%}")
     
     specificity = true_negatives / (true_negatives + false_positives)
