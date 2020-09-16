@@ -1,9 +1,14 @@
 import numpy as np
 import pandas as pd
+
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
+
+from acquire import get_titanic_data, get_iris_data
 
 
-def prep_iris(df):
+def prep_iris(df=get_iris_data()):
     '''
     prep_iris accepts the iris dataset and returns a transformed iris dataset
     for exploratory analysis.
@@ -16,7 +21,7 @@ def prep_iris(df):
     df.rename(columns={'species_name': 'species'}, inplace=True)
     
     # Create dummy variables for our targets - 0 0 represents 'species_setosa'
-    encoded_species = pd.get_dummies(df.species, prefix='species', drop_first=True)
+    encoded_species = pd.get_dummies(df.species, drop_first=True)
     
     # Add the encoded target names as columns to the dataframe.
     df = pd.concat([df, encoded_species], axis=1)
@@ -24,7 +29,7 @@ def prep_iris(df):
     return df
 
 
-def prep_titanic(df):
+def prep_titanic(df=get_titanic_data()):
     '''
     prep_titanic accepts the titanic dataset and returns a transformed titanic dataset
     for exploratory analysis.
@@ -32,26 +37,37 @@ def prep_titanic(df):
     '''
     # Drop missing values in the embarked column.
     # This removes missing values in embark_town as well.
-    df.dropna(how='any', subset=['embarked'], inplace=True)
-    df.age.fillna(df.age.median(), inplace=True)
+    # df.dropna(how='any', subset=['embarked'], inplace=True)
     
     # Throw the deck overboard because there are too many missing values.
-    df.drop(columns=['deck', 'pclass', 'embarked', 'passenger_id'], inplace=True)
+    df.drop(columns=['deck'], inplace=True)
     
-    
+
     # Create dummy variables for our targets. 0 0 represents 'embarked_c'
     encoded_embarked = pd.get_dummies(df.embark_town,
-                                      prefix='embark',
                                       drop_first=True)
     
+    encoded_class = pd.get_dummies(df['class'],
+                                   drop_first=True)
+
+    encoded_sex = pd.get_dummies(df.sex,
+                                 drop_first=True)
     # Scale numerical columns using MinMaxScalar()
-    scaler = MinMaxScaler()
+    # scaler = MinMaxScaler()
     
     # Use `.transform_fit` on the scalar object to fit and transform the data.
     # Assign directly to 'age' and 'fare' columns.
-    df[['age', 'fare']] = scaler.fit_transform(df[['age', 'fare']])
+    # df[['age', 'fare']] = scaler.fit_transform(df[['age', 'fare']])
     
     # Add the encoded target names as columns to the dataframe.
-    df = pd.concat([df, encoded_embarked], axis=1)
-    
+    df = pd.concat([df,
+                    encoded_embarked,
+                    encoded_class,
+                    encoded_sex], axis=1)
+
     return df
+
+
+
+
+
