@@ -7,11 +7,11 @@ def evaluation_metrics(matrix):
     Returns classification metrics:
     Accuracy, Misclassification Rate, Recall, Specificity
     '''
-     # unravels matrix column wise
-    true_positives, false_negatives, false_positives, true_negatives = matrix.values.ravel()
+     # unravels matrix row wise
+    true_positives, false_positives, false_negatives, true_negatives = matrix.values.ravel()
     
     print("Model Evaluation\n" + ("-" * 16))
-    # Use the accuracy formula to above to calculate model accuracy
+    
     accuracy = (true_positives + true_negatives)/sum([true_positives, false_positives, false_negatives, true_negatives])
     print(f"Accuracy {accuracy:20.2%}")
     
