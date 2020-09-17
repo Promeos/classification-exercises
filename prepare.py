@@ -43,7 +43,7 @@ def prep_titanic(df=get_titanic_data()):
     df.drop(columns=['deck'], inplace=True)
     
 
-    # Create dummy variables for our targets. 0 0 represents 'embarked_c'
+    # Create dummy variables for our targets.
     encoded_embarked = pd.get_dummies(df.embark_town,
                                       drop_first=True)
     
@@ -52,6 +52,8 @@ def prep_titanic(df=get_titanic_data()):
 
     encoded_sex = pd.get_dummies(df.sex,
                                  drop_first=True)
+    
+    df = df.select_dtypes(exclude='O')
     # Scale numerical columns using MinMaxScalar()
     # scaler = MinMaxScaler()
     
