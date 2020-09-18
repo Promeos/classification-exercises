@@ -52,7 +52,7 @@ def evaluation_metrics(matrix=None, model_number=1):
     Accuracy, Recall, Precision, Specificity
     '''
      # unravels matrix row wise
-    true_positives, false_positives, false_negatives, true_negatives = matrix.values.ravel()
+    true_positives, false_positives, false_negatives, true_negatives = matrix.values.ravel()[::-1]
     
     accuracy = accuracy_metric(true_positives, false_positives, false_negatives, true_negatives)
     
@@ -72,10 +72,10 @@ def evaluation_metrics(matrix=None, model_number=1):
     
     df = pd.DataFrame([accuracy, tpr, fpr, tnr,
                       fnr, precision, recall, f1])
-    df = round(df, 2) * 100
+    df = round(df, 8) * 100
     
     
-    df.columns = [('Model ' + str(model_number) + " Evaluation")]
+    df.columns = [('Model ' + str(model_number))]
     df.index = ['Accuracy',
                 'True Positive Rate',
                 'False Positive Rate',
